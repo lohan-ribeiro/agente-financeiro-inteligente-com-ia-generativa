@@ -4,7 +4,7 @@ import streamlit as st
 import requests
 
 #============= Config ===========================
-OLLAMA_URL = "http://localhost:/api/generate"
+OLLAMA_URL = "http://localhost:11434/api/generate"
 MODELO = "gpt-oss"
 
 #============= Carregar dados ====================

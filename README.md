@@ -1,149 +1,199 @@
-# 🤖 Agente Financeiro Inteligente com IA Generativa
+# 🤖 Fin — Agente Financeiro Inteligente com IA Generativa
 
-## Contexto
-
-Os assistentes virtuais no setor financeiro estão evoluindo de simples chatbots reativos para **agentes inteligentes e proativos**. Neste desafio, você vai idealizar e prototipar um agente financeiro que utiliza IA Generativa para:
-
-- **Antecipar necessidades** ao invés de apenas responder perguntas
-- **Personalizar** sugestões com base no contexto de cada cliente
-- **Cocriar soluções** financeiras de forma consultiva
-- **Garantir segurança** e confiabilidade nas respostas (anti-alucinação)
-
-> [!TIP]
-> Na pasta [`examples/`](./examples/) você encontra referências de implementação para cada etapa deste desafio.
+Fin é um agente conversacional baseado em IA generativa que atua como **conselheiro e educador financeiro pessoal**. Ele analisa a situação financeira do usuário (renda, gastos, dívidas, perfil de investidor e histórico de atendimentos) e responde perguntas em linguagem natural, sempre com foco em educação financeira, clareza e segurança contra alucinações.
 
 ---
 
-## O Que Você Deve Entregar
+## 💡 Sobre o Projeto
 
-### 1. Documentação do Agente
+### Problema
 
-Defina **o que** seu agente faz e **como** ele funciona:
+Muitas pessoas não possuem controle efetivo sobre suas finanças pessoais, o que dificulta visualizar como o dinheiro é gasto ao longo do mês. Isso leva ao endividamento, gastos além do orçamento e dificuldade para atingir metas financeiras — muitas vezes por falta de informações claras e orientação personalizada.
 
-- **Caso de Uso:** Qual problema financeiro ele resolve? (ex: consultoria de investimentos, planejamento de metas, alertas de gastos)
-- **Persona e Tom de Voz:** Como o agente se comporta e se comunica?
-- **Arquitetura:** Fluxo de dados e integração com a base de conhecimento
-- **Segurança:** Como evitar alucinações e garantir respostas confiáveis?
+### Solução
 
-📄 **Template:** [`docs/01-documentacao-agente.md`](./docs/01-documentacao-agente.md)
+O Fin analisa os dados financeiros do usuário, interpreta essas informações e gera insights personalizados. Ele responde dúvidas em linguagem natural, identifica oportunidades de economia, avalia a saúde financeira do usuário e sugere ações práticas — sempre em tom educativo, sem julgamentos e sem prometer resultados financeiros.
 
----
+### Público-Alvo
 
-### 2. Base de Conhecimento
-
-Utilize os **dados mockados** disponíveis na pasta [`data/`](./data/) para alimentar seu agente:
-
-| Arquivo | Formato | Descrição |
-|---------|---------|-----------|
-| `transacoes.csv` | CSV | Histórico de transações do cliente |
-| `historico_atendimento.csv` | CSV | Histórico de atendimentos anteriores |
-| `perfil_investidor.json` | JSON | Perfil e preferências do cliente |
-| `produtos_financeiros.json` | JSON | Produtos e serviços disponíveis |
-
-Você pode adaptar ou expandir esses dados conforme seu caso de uso.
-
-📄 **Template:** [`docs/02-base-conhecimento.md`](./docs/02-base-conhecimento.md)
+Pessoas iniciantes em finanças pessoais que querem aprender a administrar melhor o dinheiro, controlar gastos, evitar dívidas e criar hábitos financeiros mais saudáveis.
 
 ---
 
-### 3. Prompts do Agente
+## 🧠 Persona
 
-Documente os prompts que definem o comportamento do seu agente:
+| | |
+|---|---|
+| **Nome** | Fin |
+| **Papel** | Conselheiro e educador financeiro virtual |
+| **Personalidade** | Consultivo, didático, usa exemplos e analogias, nunca julga o usuário |
+| **Tom** | Acessível, educativo e respeitoso — explica termos técnicos sempre que necessário |
 
-- **System Prompt:** Instruções gerais de comportamento e restrições
-- **Exemplos de Interação:** Cenários de uso com entrada e saída esperada
-- **Tratamento de Edge Cases:** Como o agente lida com situações limite
-
-📄 **Template:** [`docs/03-prompts.md`](./docs/03-prompts.md)
-
----
-
-### 4. Aplicação Funcional
-
-Desenvolva um **protótipo funcional** do seu agente:
-
-- Chatbot interativo (sugestão: Streamlit, Gradio ou similar)
-- Integração com LLM (via API ou modelo local)
-- Conexão com a base de conhecimento
-
-📁 **Pasta:** [`src/`](./src/)
+> *"Olá! Eu sou o Fin, seu conselheiro e educador financeiro particular. Como posso ajudar com suas finanças hoje?"*
 
 ---
 
-### 5. Avaliação e Métricas
+## 🏗️ Arquitetura
 
-Descreva como você avalia a qualidade do seu agente:
+```mermaid
+flowchart TD
+    A[Usuário] -->|Mensagem| B["Streamlit (Interface)"]
+    B --> C[LLM via Ollama - gpt-oss]
+    C --> D[Processamento dos dados financeiros]
+    D --> E[Base de Conhecimento]
+    E --> C
+    C --> F[Validação / Anti-alucinação]
+    F --> G[Resposta ao Usuário]
+```
 
-**Métricas Sugeridas:**
-- Precisão/assertividade das respostas
-- Taxa de respostas seguras (sem alucinações)
-- Coerência com o perfil do cliente
-
-📄 **Template:** [`docs/04-metricas.md`](./docs/04-metricas.md)
-
----
-
-### 6. Pitch
-
-Grave um **pitch de 3 minutos** (estilo elevador) apresentando:
-
-- Qual problema seu agente resolve?
-- Como ele funciona na prática?
-- Por que essa solução é inovadora?
-
-📄 **Template:** [`docs/05-pitch.md`](./docs/05-pitch.md)
+| Componente | Descrição |
+|------------|-----------|
+| **Interface** | Streamlit (chat interativo) |
+| **LLM** | Ollama, modelo `gpt-oss` (execução local) |
+| **Base de Conhecimento** | Arquivos CSV/JSON com dados do cliente (perfil, transações, produtos, histórico) |
+| **Validação** | Regras no system prompt que restringem o agente aos dados fornecidos |
 
 ---
 
-## Ferramentas Sugeridas
+## 🔒 Segurança e Anti-Alucinação
 
-Todas as ferramentas abaixo possuem versões gratuitas:
-
-| Categoria | Ferramentas |
-|-----------|-------------|
-| **LLMs** | [ChatGPT](https://chat.openai.com/), [Copilot](https://copilot.microsoft.com/), [Gemini](https://gemini.google.com/), [Claude](https://claude.ai/), [Ollama](https://ollama.ai/) |
-| **Desenvolvimento** | [Streamlit](https://streamlit.io/), [Gradio](https://www.gradio.app/), [Google Colab](https://colab.research.google.com/) |
-| **Orquestração** | [LangChain](https://www.langchain.com/), [LangFlow](https://www.langflow.org/), [CrewAI](https://www.crewai.com/) |
-| **Diagramas** | [Mermaid](https://mermaid.js.org/), [Draw.io](https://app.diagrams.net/), [Excalidraw](https://excalidraw.com/) |
+- O agente responde exclusivamente com base nos dados fornecidos no contexto.
+- Nunca inventa valores, históricos ou produtos financeiros.
+- Quando não possui informação suficiente, admite e solicita mais dados.
+- Deixa claro quando uma resposta é uma estimativa ou interpretação.
+- Não recomenda compra/venda de ativos específicos nem garante rentabilidade.
+- Não substitui aconselhamento financeiro profissional.
+- Não incentiva práticas ilícitas (fraude, sonegação, etc.).
+- Não compartilha dados de outros usuários.
 
 ---
 
-## Estrutura do Repositório
+## 📂 Base de Conhecimento
+
+| Arquivo | Formato | Uso |
+|---------|---------|-----|
+| `data/perfil_investidor.json` | JSON | Perfil, objetivos e metas financeiras do cliente |
+| `data/transacoes.csv` | CSV | Histórico de receitas e despesas |
+| `data/historico_atendimento.csv` | CSV | Atendimentos anteriores, para dar continuidade ao acompanhamento |
+| `data/produtos_financeiros.json` | JSON | Produtos financeiros disponíveis (risco, rentabilidade, liquidez, indicação) |
+
+Os dados são carregados na inicialização da aplicação e montados dinamicamente no contexto enviado ao modelo a cada pergunta, junto com o system prompt fixo que define comportamento, regras e limitações.
+
+---
+
+## ⚙️ Como Executar
+
+### Pré-requisitos
+
+- [Python 3.9+](https://www.python.org/)
+- [Ollama](https://ollama.ai/) instalado e rodando localmente
+- Modelo `gpt-oss` baixado no Ollama:
+  ```bash
+  ollama pull gpt-oss
+  ```
+
+### Instalação
+
+```bash
+git clone https://github.com/lohan-ribeiro/agente-financeiro-inteligente-com-ia-generativa.git
+cd agente-financeiro-inteligente-com-ia-generativa
+pip install streamlit pandas requests
+```
+
+### Executando
+
+1. Inicie o Ollama (garanta que está servindo em `http://localhost:11434`):
+   ```bash
+   ollama serve
+   ```
+2. Rode a aplicação:
+   ```bash
+   streamlit run app.py
+   ```
+3. Acesse `http://localhost:8501` e converse com o Fin.
+
+> ⚠️ **Atenção:** confira a variável `OLLAMA_URL` em `app.py` — ela precisa apontar para a porta correta do Ollama (padrão `11434`).
+
+---
+
+## 💬 Exemplo de Interação
+
+**Usuário:** "Recebo R$ 6.000 por mês e meus gastos com moradia, alimentação, transporte e lazer somam R$ 4.400. Tenho uma dívida de R$ 3.000 no cartão."
+
+**Fin:**
+```
+Resumo da situação
+Sua renda cobre seus gastos atuais, porém a dívida do cartão merece atenção.
+
+Pontos positivos
+• Sua renda é superior às despesas mensais.
+
+Pontos de atenção
+• A dívida do cartão pode gerar juros elevados caso não seja quitada rapidamente.
+
+Recomendações
+• Priorize o pagamento da dívida do cartão.
+• Considere reduzir gastos com lazer temporariamente.
+
+Próximos passos
+Posso calcular sua saúde financeira e sugerir um plano de organização mensal.
+```
+
+---
+
+## 📊 Avaliação
+
+O agente é avaliado a partir de três métricas principais:
+
+| Métrica | O que avalia |
+|---------|--------------|
+| **Assertividade** | Se a resposta corresponde ao que foi perguntado |
+| **Segurança** | Se o agente evita inventar informações fora do contexto |
+| **Coerência** | Se a resposta é compatível com o perfil do cliente |
+
+Cenários de teste incluem: consulta de gastos, recomendação de produto, perguntas fora do escopo financeiro e perguntas sobre informações inexistentes na base.
+
+---
+
+## 📁 Estrutura do Repositório
 
 ```
-📁 lab-agente-financeiro/
+📁 agente-financeiro-inteligente-com-ia-generativa/
 │
 ├── 📄 README.md
+├── 📄 app.py                          # Aplicação Streamlit + integração com Ollama
 │
-├── 📁 data/                          # Dados mockados para o agente
-│   ├── historico_atendimento.csv     # Histórico de atendimentos (CSV)
-│   ├── perfil_investidor.json        # Perfil do cliente (JSON)
-│   ├── produtos_financeiros.json     # Produtos disponíveis (JSON)
-│   └── transacoes.csv                # Histórico de transações (CSV)
+├── 📁 data/
+│   ├── perfil_investidor.json
+│   ├── transacoes.csv
+│   ├── historico_atendimento.csv
+│   └── produtos_financeiros.json
 │
-├── 📁 docs/                          # Documentação do projeto
-│   ├── 01-documentacao-agente.md     # Caso de uso e arquitetura
-│   ├── 02-base-conhecimento.md       # Estratégia de dados
-│   ├── 03-prompts.md                 # Engenharia de prompts
-│   ├── 04-metricas.md                # Avaliação e métricas
-│   └── 05-pitch.md                   # Roteiro do pitch
-│
-├── 📁 src/                           # Código da aplicação
-│   └── app.py                        # (exemplo de estrutura)
-│
-├── 📁 assets/                        # Imagens e diagramas
-│   └── ...
-│
-└── 📁 examples/                      # Referências e exemplos
-    └── README.md
+└── 📁 docs/
+    ├── 01-documentacao-agente.md      # Caso de uso, persona e arquitetura
+    ├── 02-base-conhecimento.md        # Estratégia de dados
+    ├── 03-prompts.md                  # System prompt e exemplos de interação
+    ├── 04-metricas.md                 # Avaliação e métricas
+    └── 05-pitch.md                    # Roteiro e link do pitch
 ```
 
 ---
 
-## Dicas Finais
+## 🛠️ Stack Utilizada
 
-1. **Comece pelo prompt:** Um bom system prompt é a base de um agente eficaz
-2. **Use os dados mockados:** Eles garantem consistência e evitam problemas com dados sensíveis
-3. **Foque na segurança:** No setor financeiro, evitar alucinações é crítico
-4. **Teste cenários reais:** Simule perguntas que um cliente faria de verdade
-5. **Seja direto no pitch:** 3 minutos passam rápido, vá ao ponto
+- **Interface:** [Streamlit](https://streamlit.io/)
+- **LLM:** [Ollama](https://ollama.ai/) (`gpt-oss`, execução local)
+- **Dados:** Python + Pandas (CSV/JSON)
+
+---
+
+## ⚠️ Limitações
+
+- Não acessa nem compartilha dados bancários sensíveis reais.
+- Não substitui um profissional de finanças qualificado.
+- Não faz recomendações diretas de compra/venda de investimentos.
+- Não prevê comportamento do mercado financeiro.
+
+
+## ⚠️ Aviso
+Todos os dados usados ​​neste projeto são fictícios e usados ​​apenas para fins educacionais.
